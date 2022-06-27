@@ -6,10 +6,16 @@ for i in range(1200):
 
 
 
-
-
-
-
+# # # Curses
+  # for i in range(0, 255):
+    #     stdscr.addstr(str(i), curses.color_pair(i))
+    # stdscr.refresh()
+    
+    # for i in range(1200):
+    #     output = open(f'./cache/Pokemon-{i}-ascii-art.txt')
+    #     stdscr.addstr(0,0,output.read())
+    #     stdscr.refresh()
+    #     time.sleep(0.0333)
 
 # import subprocess as sp
 
