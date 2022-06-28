@@ -2,6 +2,33 @@ import os
 from PIL import Image
 import subprocess as sp
 
+def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold=False,custom=False,full=False,save=False,bg_color=False,raw=False,complex=False):
+    input = ''
+    if color:
+        input += ' -C'
+    if dimensions:
+        input += f' -d {dimensions}'
+    if braille:
+        input += ' -b'
+        if dither:
+            input += f' --dither'
+        if threshold:
+            input += f' --threshold {threshold}'
+    if custom:
+        input += f' -m "{custom}"'
+    if full:
+        input += ' -f'
+    if save:
+        input += f' --save-txt {save} --only-save'
+    if bg_color:
+        input += ' --color-bg'
+    if complex:
+        input += ' -c'
+    if raw:
+        return f'ascii-image-converter {image}{input}'
+    else:
+        os.system(f'ascii-image-converter {image}{input}')
+
 def get_rgb(file,xterm=False,get_size=False):
     img = Image.open(file).convert('RGB')
     width, height = img.size
@@ -23,25 +50,6 @@ def get_rgb(file,xterm=False,get_size=False):
             return colors
     else:
         return pixels
-
-def Ascii(image,color=False,dimensions=None,braille=False,full=False,save=False,bg_color=False,raw=False):
-    input = ''
-    if color:
-        input += ' -C'
-    if dimensions:
-        input += f' -d {dimensions}'
-    if braille:
-        input += ' -b'
-    if full:
-        input += ' -f'
-    if save:
-        input += f' --save-txt {save} --only-save'
-    if bg_color:
-        input += ' --color-bg'
-    if raw:
-        return f'ascii-image-converter {image}{input}'
-    else:
-        os.system(f'ascii-image-converter {image}{input}')
 
 def decode(file):
     output = sp.getoutput(Ascii(f'{file}',color=True,braille=True,dimensions='300,100',bg_color=True,raw=True))
