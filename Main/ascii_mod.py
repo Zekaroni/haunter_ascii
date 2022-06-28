@@ -1,6 +1,4 @@
 import os
-from PIL import Image
-import subprocess as sp
 
 def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold=False,custom=False,full=False,save=False,bg_color=False,raw=False,complex=False):
     input = ''
@@ -31,6 +29,9 @@ def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold
 
 def clear():
     os.system('clear')
+
+def screenshot():
+    os.system('xdotool key F12')
 
 def set_profile(profile):
     os.system(f'xdotool key shift+F10 r {profile}')
