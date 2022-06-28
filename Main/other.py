@@ -2,11 +2,27 @@ from ascii_mod import *
 import subprocess as sp
 
 
+output = sp.getoutput(Ascii('./dataset/Pokemon-0.png',braille=True,dimensions='300,100',raw=True))
+
+
+
+# for i in range(1200):
+#         stdscr.move(0, 0)
+#         chars = decode(f'./dataset/Pokemon-{i}.png')
+#         final_pixels = []
+#         for char in chars:
+#             color = xterm(char[0])
+#             final_pixels.append([color,char[1]])
+#         for pixel in final_pixels:
+#             stdscr.addstr(f'{pixel[1]}',curses.color_pair(pixel[0]))
+
+
+
 # output = sp.getoutput(Ascii(f'./dataset/Pokemon-0.png',color=True,braille=True,dimensions='300,100',bg_color=True,raw=True))
 # print(output)
 
-file = open('test.txt','r')
-print(file.read())
+# file = open('test.txt','r')
+# print(file.read())
 
 # for i in range(1200):
 #     Ascii(f'./dataset/Pokemon-{i}.png',braille=True,save='./cache',dimensions='300,100')
@@ -71,3 +87,21 @@ print(file.read())
 #     if i % 10 == 0:
 #         clear()
 #     Ascii(f'./dataset2/Pokemon-{i}.png',color=True,dimensions='320,100',braille=True)
+
+
+# chars = decode('./dataset/Pokemon-0.png')
+# final_pixels = []
+# for char in chars:
+#     color = xterm(char[0])
+#     final_pixels.append([color,char[1]])
+
+# # line = ''
+# # for i in range(len(final_pixels)):
+# #     line+=f'{final_pixels[i][1]}'
+# # print(line)
+
+
+#for i in range(1200):
+    #     output = sp.getoutput(Ascii(f'./dataset/Pokemon-{i}.png',braille=True,dimensions='300,100',raw=True))
+    #     stdscr.addstr(0,0,output)
+    #     stdscr.refresh()

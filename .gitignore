@@ -1,5 +1,5 @@
 # Zeke's
-#[
+# [
 __pycache__
 Archive
 /Pokemon - Fire Red.gba
@@ -8,4 +8,5 @@ Archive
 /Main/dataset
 /insta.png
 /Main/test.txt
-#]
+hidden_vars.py
+# ]

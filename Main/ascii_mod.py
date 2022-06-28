@@ -1,6 +1,6 @@
 import os
-import time
 from PIL import Image
+import subprocess as sp
 
 def get_rgb(file,xterm=False,get_size=False):
     img = Image.open(file).convert('RGB')
@@ -43,9 +43,28 @@ def Ascii(image,color=False,dimensions=None,braille=False,full=False,save=False,
     else:
         os.system(f'ascii-image-converter {image}{input}')
 
+def decode(file):
+    output = sp.getoutput(Ascii(f'{file}',color=True,braille=True,dimensions='300,100',bg_color=True,raw=True))
+
+    values = output.split('[48;2;')
+    decoded = []
+    cycle = 0
+    for value in values:
+        split = value.replace('\x1b[0m','').split('m')
+        try:
+            decoded.append([split[0].split(';'),split[1]])
+        except Exception:
+            pass
+        cycle+=1
+    return decoded
+
+def xterm(rgb):
+    r,g,b = rgb
+    color = round((int(r)*6/256)*36 + (int(g)*6/256)*6 + (int(b)*6/256))
+    return color
+
 def clear():
     os.system('clear')
 
 def set_profile(profile):
     os.system(f'xdotool key shift+F10 r {profile}')
-#&& xdotool key ctrl+shift+a

@@ -1,35 +1,28 @@
 import curses
 from curses import color_content, wrapper
-from doctest import OutputChecker
-import time
 from ascii_mod import *
-import subprocess as sp
-import culour
 
 set_profile(1)
 
+
 def main(stdscr):
-    global output
     stdscr.clear()
     curses.start_color()
     curses.use_default_colors()
     for i in range(0, curses.COLORS):
         curses.init_pair(i + 1, i, -1)
 
-    output = []
+    for i in range(1200):
+        stdscr.move(0, 0)
+        chars = decode(f'./dataset/Pokemon-{i}.png')
+        final_pixels = []
+        for char in chars:
+            color = xterm(char[0])
+            final_pixels.append([color,char[1]])
+        for pixel in final_pixels:
+            stdscr.addstr(f'{pixel[1]}',curses.color_pair(pixel[0]))
+        stdscr.refresh()
 
-    file = open('./cache/Pokemon-0-ascii-art.txt','r').read()
-
-    for char in file:
-        output.append(char)
-        try:
-            curses.addstr(char)
-        except Exception:
-            pass
-    
     stdscr.getch()
 
 wrapper(main)
-
-for line in output:
-    print(line)
