@@ -30,8 +30,5 @@ def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold
 def clear():
     os.system('clear')
 
-def screenshot():
-    os.system('xdotool key F12')
-
 def set_profile(profile):
     os.system(f'xdotool key shift+F10 r {profile}')
