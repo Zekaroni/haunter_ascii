@@ -1,8 +1,17 @@
-from blessed import Terminal
-from ascii_mod import *
-from pyboy import PyBoy,logger,WindowEvent
 import time
 import subprocess as sp
+import os
+
+try:
+    from blessed import Terminal
+except Exception:
+    os.system('pip install blessed')
+    from blessed import Terminal
+try:
+    from pyboy import PyBoy,logger,WindowEvent
+except Exception:
+    os.system('pip install pyboy')
+    from pyboy import PyBoy,logger,WindowEvent
 
 A = 'j'
 B = 'k'
@@ -37,6 +46,37 @@ CONTROLS = [
     [START,WindowEvent.PRESS_BUTTON_START,WindowEvent.RELEASE_BUTTON_START],
     [SELECT,WindowEvent.PRESS_BUTTON_SELECT,WindowEvent.RELEASE_BUTTON_SELECT]
 ]
+
+def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold=False,custom=False,full=False,save=False,bg_color=False,raw=False,complex=False):
+    input = ''
+    if color:
+        input += ' -C'
+    if dimensions:
+        input += f' -d {dimensions}'
+    if braille:
+        input += ' -b'
+        if dither:
+            input += f' --dither'
+        if threshold:
+            input += f' --threshold {threshold}'
+    if custom:
+        input += f' -m "{custom}"'
+    if full:
+        input += ' -f'
+    if save:
+        input += f' --save-txt {save} --only-save'
+    if bg_color:
+        input += ' --color-bg'
+    if complex:
+        input += ' -c'
+    if raw:
+        return f'ascii-image-converter {image}{input}'
+    else:
+        os.system(f'ascii-image-converter {image}{input}')
+
+def clear():
+    os.system('clear')
+
 
 def game_input(key,state):
     global prev_key
