@@ -2,6 +2,7 @@ from blessed import Terminal
 from ascii_mod import *
 from pyboy import PyBoy,logger,WindowEvent
 import time
+import subprocess as sp
 
 A = 'j'
 B = 'k'
@@ -16,13 +17,14 @@ SAVE = '5'
 # Disables logging
 logger.log_level("DISABLE")
 
-# Start the emulator
+# Initializes the emulator
 pyboy = PyBoy('./tmp/Pokemon - Red.gb',window_type='headless')
 
 # Creates a terminal object
 t = Terminal()
 
 # Initializes needed variables
+padx, pady  = 2 ,2
 width, height = [0,0]
 press,release,prev_key,current_key = '','','',''
 CONTROLS = [
@@ -59,19 +61,39 @@ def game_input(key,state):
         except Exception:
             pass
 
+def print0(str):
+    with t.location(0,0):
+        print(str,end='')
+
+def save_game():
+    print0('-'*(t.width-padx))
+    print0('Are you sure you want to save the game? (y/n)')
+    choice = t.getch()
+    if choice == 'y':
+        print0('-'*(t.width-padx))
+        print0('Saving the game')
+        time.sleep(1)
+        save = open('./tmp/save.state','wb')
+        pyboy.save_state(save)
+        print0('-'*(t.width-padx))
+        print0('Game has been saved')
+        time.sleep(1)
+
 def main():
     global width,height,prev_key,current_key
     clear()
-    t.move_xy(0,0)
+    pyboy.set_emulation_speed(2)
     try:
+        # Load save file if there is one
         save = open('./tmp/save.state','rb')
         pyboy.load_state(save)
         clear()
-        print('Loading save...')
-        time.sleep(2)
+        print0('Loading save...')
+        time.sleep(1)
     except:
-        print('No file found, starting a new game...')
-        time.sleep(2)
+        # Starts a new game if no save file is found
+        print0('No file found, starting a new game...')
+        time.sleep(1)
     # Runs while the emulator can progress a "tick"
     while not pyboy.tick():
         # Checks if a key is being pressed, if true, it does the in-game action
@@ -80,8 +102,7 @@ def main():
             if current_key == prev_key:
                 pass
             elif current_key == SAVE:
-                save = open('./tmp/save.state','wb')
-                pyboy.save_state(save)
+                save_game()
             else:
                 game_input(current_key,'press')
                 prev_key = current_key
@@ -98,11 +119,9 @@ def main():
         # Captures current frame
         pyboy.screen_image().save('./tmp/pkmtmp.png')
         # Displays current frame in ASCII in terminal
-        with t.location(0, 0):
-            #TODO Build custom ascii converter to remove the need to cahce current frame as a screenshot
-            Ascii('./tmp/pkmtmp.png',braille=True,dimensions=f'{width - 2},{height - 2}')
+        print0(sp.getoutput(Ascii('./tmp/pkmtmp.png',threshold=170,braille=True,dimensions=f'{width - pady},{height - padx}',raw=True)))
     # Stops the emulator if tick can no longer be updated
     pyboy.stop()
 
-with t.fullscreen(),t.cbreak(),t.hidden_cursor():
+with t.cbreak(),t.hidden_cursor():
     main()
