@@ -18,7 +18,7 @@ SAVE = '5'
 logger.log_level("DISABLE")
 
 # Initializes the emulator
-pyboy = PyBoy('./tmp/Pokemon - Red.gb',window_type='headless')
+pyboy = PyBoy('./tmp/Pokemon - Red.gb',window_type='healess')
 
 # Creates a terminal object
 t = Terminal()
