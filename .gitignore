@@ -2,8 +2,6 @@
 # [
 __pycache__
 Archive
-/Main/dataset
-hidden_vars.py
-screenshots
+tmp
 test.py
 # ]
