@@ -51,6 +51,8 @@ def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold
     input = ''
     if color:
         input += ' -C'
+        if bg_color:
+            input += ' --color-bg'
     if dimensions:
         input += f' -d {dimensions}'
     if braille:
@@ -65,8 +67,7 @@ def Ascii(image,color=False,dimensions=None,braille=False,dither=False,threshold
         input += ' -f'
     if save:
         input += f' --save-txt {save} --only-save'
-    if bg_color:
-        input += ' --color-bg'
+   
     if complex:
         input += ' -c'
     if raw:
